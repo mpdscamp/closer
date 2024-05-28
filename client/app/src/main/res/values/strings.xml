@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Closer</string>
+    <string-array name="group_themes">
+        <item>Família</item>
+        <item>Amigos</item>
+        <item>Romântico</item>
+    </string-array>
+</resources>
