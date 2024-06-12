@@ -40,7 +40,7 @@ public class LoginServlet extends HttpServlet {
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/closer", "root", "password"); // Replace with your DB credentials
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/closer", "root", "MyNewPass"); // Replace with your DB credentials
             String sql = "SELECT * FROM Users WHERE email = ? AND password_hash = ?";
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, email);
@@ -52,6 +52,7 @@ public class LoginServlet extends HttpServlet {
                 out.print("Login successful");
             } else {
                 out.print("Invalid credentials");
+                
             }
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();

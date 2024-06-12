@@ -22,7 +22,7 @@ public class TestDatabaseConnectionServlet extends HttpServlet {
 
         String jdbcUrl = "jdbc:mysql://localhost:3306/closer";
         String username = "root";
-        String password = "password"; // Replace with your actual password
+        String password = "MyNewPass"; // Replace with your actual password
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");

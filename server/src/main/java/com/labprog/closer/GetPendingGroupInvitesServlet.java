@@ -30,7 +30,7 @@ public class GetPendingGroupInvitesServlet extends HttpServlet {
 
         String jdbcUrl = "jdbc:mysql://localhost:3306/closer";
         String username = "root";
-        String password = "password"; // Replace with your actual password
+        String password = "MyNewPass"; // Replace with your actual password
 
         Connection connection = null;
         PreparedStatement statement = null;
