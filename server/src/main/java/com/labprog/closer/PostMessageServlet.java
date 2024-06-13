@@ -14,36 +14,21 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet("/create-group")
-public class CreateGroupServlet extends HttpServlet {
+@WebServlet("/post-message")
+public class PostMessageServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String userEmail = request.getParameter("email");
-        String groupName = request.getParameter("groupName");
-        String groupTheme = request.getParameter("groupTheme");
+        int groupId = Integer.parseInt(request.getParameter("groupId"));
+        int challengeId = Integer.parseInt(request.getParameter("challengeId"));
+        String imageUrl = request.getParameter("imageUrl");
         response.setContentType("text/plain");
         PrintWriter out = response.getWriter();
 
         String jdbcUrl = "jdbc:mysql://localhost:3306/closer";
         String username = "root";
-        String password = "password"; 
-
-        String defaultImageUrl;
-        switch (groupTheme.toLowerCase()) {
-            case "family":
-                defaultImageUrl = "http://10.0.2.2:8080/closer_war_exploded/images/family.jpg";
-                break;
-            case "friends":
-                defaultImageUrl = "http://10.0.2.2:8080/closer_war_exploded/images/friends.jpg";
-                break;
-            case "romantic":
-                defaultImageUrl = "http://10.0.2.2:8080/closer_war_exploded/images/romantic.jpg";
-                break;
-            default:
-                defaultImageUrl = "http://10.0.2.2:8080/closer_war_exploded/images/default.jpg";
-                break;
-        }
+        String password = "password"; // Replace with your actual password
 
         Connection connection = null;
         PreparedStatement statement = null;
@@ -61,28 +46,16 @@ public class CreateGroupServlet extends HttpServlet {
             if (rs.next()) {
                 int userId = rs.getInt("user_id");
 
-                String insertGroupSql = "INSERT INTO UserGroups (group_name, theme, image_url, created_by) VALUES (?, ?, ?, ?)";
-                statement = connection.prepareStatement(insertGroupSql, PreparedStatement.RETURN_GENERATED_KEYS);
-                statement.setString(1, groupName);
-                statement.setString(2, groupTheme);
-                statement.setString(3, defaultImageUrl);
-                statement.setInt(4, userId);
+                String insertImageSql = "INSERT INTO images (group_id, user_id, challenge_id, image_url, submitted_at) VALUES (?, ?, ?, ?, NOW())";
+                statement = connection.prepareStatement(insertImageSql);
+                statement.setInt(1, groupId);
+                statement.setInt(2, userId);
+                statement.setInt(3, challengeId);
+                statement.setString(4, imageUrl);
                 System.out.println("Executing query: " + statement.toString());
                 statement.executeUpdate();
 
-                ResultSet generatedKeys = statement.getGeneratedKeys();
-                if (generatedKeys.next()) {
-                    int groupId = generatedKeys.getInt(1);
-
-                    String insertMembershipSql = "INSERT INTO GroupMemberships (user_id, group_id) VALUES (?, ?)";
-                    statement = connection.prepareStatement(insertMembershipSql);
-                    statement.setInt(1, userId);
-                    statement.setInt(2, groupId);
-                    System.out.println("Executing query: " + statement.toString());
-                    statement.executeUpdate();
-                }
-
-                out.print("Group created successfully");
+                out.print("Image posted successfully");
             } else {
                 out.print("User not found");
             }
