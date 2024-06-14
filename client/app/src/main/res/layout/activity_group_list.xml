@@ -17,7 +17,8 @@
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textSize="18sp"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:textColor="@color/white"/>
 
         <Button
             android:id="@+id/friends_list_button"

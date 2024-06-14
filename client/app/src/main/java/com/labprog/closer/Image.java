@@ -6,25 +6,17 @@ public class Image {
     private int userId;
     private String imageUrl;
     private String username;
-    private int likes;
-    private int dislikes;
 
-    public Image(int imageId, int groupId, int userId, String imageUrl, String username, int likes, int dislikes) {
+    public Image(int imageId, int groupId, int userId, String imageUrl, String username) {
         this.imageId = imageId;
         this.groupId = groupId;
         this.userId = userId;
         this.imageUrl = imageUrl;
         this.username = username;
-        this.likes = likes;
-        this.dislikes = dislikes;
     }
 
     public int getImageId() {
         return imageId;
-    }
-
-    public void setImageId(int imageId) {
-        this.imageId = imageId;
     }
 
     public int getGroupId() {
@@ -35,27 +27,15 @@ public class Image {
         return userId;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
     public String getImageUrl() {
         return imageUrl;
     }
 
-    public int getLikes() {
-        return likes;
+    public String getUsername() {
+        return username;
     }
 
-    public void setLikes(int likes) {
-        this.likes = likes;
-    }
-
-    public int getDislikes() {
-        return dislikes;
-    }
-
-    public void setDislikes(int dislikes) {
-        this.dislikes = dislikes;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 }

@@ -24,10 +24,12 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -50,14 +52,14 @@ public class GroupActivity extends AppCompatActivity {
     private TextView groupNameDisplay;
     private Button inviteToGroupButton;
     private Button fabCamera;
-    private Button challengesButton; // New button for challenges
+    private Button challengesButton;
     private RecyclerView recyclerView;
     private ImageAdapter imageAdapter;
     private List<Image> imageUrlList;
     private int groupId;
     private String groupName;
     private String userEmail;
-    private int userId; // Assuming userId is available
+    private int userId;
     private ActivityResultLauncher<Intent> takePictureLauncher;
 
     @Override
@@ -68,11 +70,11 @@ public class GroupActivity extends AppCompatActivity {
         groupNameDisplay = findViewById(R.id.group_name_display);
         inviteToGroupButton = findViewById(R.id.invite_to_group_button);
         fabCamera = findViewById(R.id.fabCamera);
-        challengesButton = findViewById(R.id.challenges_button); // Initialize the new button
+        challengesButton = findViewById(R.id.challenges_button);
         recyclerView = findViewById(R.id.recyclerView);
 
         imageUrlList = new ArrayList<>();
-        imageAdapter = new ImageAdapter(imageUrlList, this, userId);
+        imageAdapter = new ImageAdapter(imageUrlList, this, userEmail);
 
         recyclerView.setAdapter(imageAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
@@ -80,7 +82,8 @@ public class GroupActivity extends AppCompatActivity {
         groupId = getIntent().getIntExtra("GROUP_ID", -1);
         groupName = getIntent().getStringExtra("GROUP_NAME");
         userEmail = getIntent().getStringExtra("USER_EMAIL");
-        userId = getIntent().getIntExtra("USER_ID", -1); // Assuming userId is passed in the intent
+
+        fetchUserId(userEmail);
 
         groupNameDisplay.setText(groupName);
 
@@ -110,7 +113,6 @@ public class GroupActivity extends AppCompatActivity {
 
         fetchImagesFromServer(groupId);
 
-        // Initialize the ActivityResultLauncher
         takePictureLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 new ActivityResultCallback<ActivityResult>() {
@@ -208,13 +210,12 @@ public class GroupActivity extends AppCompatActivity {
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
                     String json = response.body().string();
-                    System.out.println("Server response: " + json); // Log the server response for debugging
+                    System.out.println("Server response: " + json);
 
                     try {
                         Gson gson = new Gson();
                         Type listType = new TypeToken<List<Image>>() {}.getType();
 
-                        // Check if the response starts with '[' indicating it's a JSON array
                         if (json.startsWith("[")) {
                             List<Image> messages = gson.fromJson(json, listType);
 
@@ -223,7 +224,6 @@ public class GroupActivity extends AppCompatActivity {
 
                             runOnUiThread(() -> imageAdapter.notifyDataSetChanged());
                         } else {
-                            // Handle the case where the response is not an array
                             runOnUiThread(() -> Toast.makeText(GroupActivity.this, "Unexpected server response", Toast.LENGTH_SHORT).show());
                         }
                     } catch (JsonSyntaxException e) {
@@ -255,13 +255,12 @@ public class GroupActivity extends AppCompatActivity {
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
                     String json = response.body().string();
-                    System.out.println("Server response: " + json); // Log the server response for debugging
+                    System.out.println("Server response: " + json);
 
                     try {
                         Gson gson = new Gson();
                         Type listType = new TypeToken<List<Challenges>>() {}.getType();
 
-                        // Check if the response starts with '[' indicating it's a JSON array
                         if (json.startsWith("[")) {
                             List<Challenges> challenges = gson.fromJson(json, listType);
 
@@ -293,6 +292,36 @@ public class GroupActivity extends AppCompatActivity {
                 .setMessage(challengeText)
                 .setPositiveButton("OK", null)
                 .show();
+    }
+
+    private void fetchUserId(String email) {
+        OkHttpClient client = new OkHttpClient();
+        String url = "http://10.0.2.2:8080/closer_war_exploded/get-user-id-by-email?email=" + email;
+
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String json = response.body().string();
+                    try {
+                        JSONObject jsonObject = new JSONObject(json);
+                        userId = jsonObject.getInt("user_id");
+                        imageAdapter.setUserId(userId);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
     }
 
     class Message {

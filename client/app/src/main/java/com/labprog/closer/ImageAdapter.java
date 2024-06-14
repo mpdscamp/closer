@@ -31,12 +31,19 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
 
     private List<Image> images;
     private Context context;
-    private int userId; // Assuming userId is available in the adapter
+    private String userEmail;
 
-    public ImageAdapter(List<Image> imageUrlList, Context context, int userId) {
+    public ImageAdapter(List<Image> imageUrlList, Context context, String userEmail) {
         this.images = imageUrlList;
         this.context = context;
-        this.userId = userId;
+        this.userEmail = userEmail;
+    }
+
+    public void setUserId(int userId) {
+        for (Image image : images) {
+            image.setUserId(userId);
+        }
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -87,8 +94,8 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         OkHttpClient client = new OkHttpClient();
         String url = "http://10.0.2.2:8080/closer_war_exploded/post-rating";
 
-        String json = "{\"imageId\":" + imageId + ",\"userId\":" + userId + ",\"rating\":\"" + rating + "\"}";
-        Log.d("ImageAdapter", "Sending JSON: " + json); // Log the JSON payload
+        String json = "{\"imageId\":" + imageId + ",\"email\":\"" + userEmail + "\",\"rating\":\"" + rating + "\"}";
+        Log.d("ImageAdapter", "Sending JSON: " + json);  // Log the JSON being sent
         RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), json);
 
         Request request = new Request.Builder()
@@ -105,9 +112,8 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                Log.d("ImageAdapter", "Response code: " + response.code()); // Log the response code
-                Log.d("ImageAdapter", "Response body: " + response.body().string()); // Log the response body
-
+                Log.d("ImageAdapter", "Response code: " + response.code());  // Log the response code
+                Log.d("ImageAdapter", "Response body: " + response.body().string());  // Log the response body
                 if (response.isSuccessful()) {
                     showToast("Rating posted successfully");
                 } else {
