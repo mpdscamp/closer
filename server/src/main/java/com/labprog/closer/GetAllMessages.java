@@ -3,7 +3,6 @@ package com.labprog.closer;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,7 +17,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
-@WebServlet("/get-all-messages")
+@WebServlet("/get-messages-by-group-id")
 public class GetAllMessages extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -32,30 +31,40 @@ public class GetAllMessages extends HttpServlet {
 
         List<Message> messages = new ArrayList<>();
 
+        // Capturando o parâmetro group_id da requisição
+        int groupId = Integer.parseInt(request.getParameter("group_id"));
+
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
+            // Estabelecendo a conexão com o banco de dados
             connection = DatabaseConnection.getConnection();
 
-            String sql = "SELECT group_id, image_url, user_id FROM images";
+            // Consulta SQL para selecionar mensagens por group_id e incluir o username
+            String sql = "SELECT i.group_id, i.image_url, i.user_id, u.username FROM images i JOIN Users u ON i.user_id = u.user_id WHERE i.group_id = ?";
             statement = connection.prepareStatement(sql);
+            statement.setInt(1, groupId);
             resultSet = statement.executeQuery();
 
+            // Processando os resultados da consulta
             while (resultSet.next()) {
-                int groupId = resultSet.getInt("group_id");
+                int groupIdResult = resultSet.getInt("group_id");
                 String imageUrl = resultSet.getString("image_url");
                 int userId = resultSet.getInt("user_id");
-                messages.add(new Message(groupId, imageUrl, userId));
+                String username = resultSet.getString("username");
+                messages.add(new Message(groupIdResult, imageUrl, userId, username));
             }
 
+            // Convertendo a lista de mensagens para JSON
             Gson gson = new Gson();
             String json = gson.toJson(messages);
             out.print(json);
 
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace(out);
         } catch (SQLException e) {
             e.printStackTrace(out);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         } finally {
+            // Fechando recursos
             try {
                 if (resultSet != null) resultSet.close();
                 if (statement != null) statement.close();
@@ -66,15 +75,18 @@ public class GetAllMessages extends HttpServlet {
         }
     }
 
+    // Classe interna para representar uma mensagem
     class Message {
         int groupId;
         String imageUrl;
         int userId;
+        String username;
 
-        Message(int groupId, String imageUrl, int userId) {
+        Message(int groupId, String imageUrl, int userId, String username) {
             this.groupId = groupId;
             this.imageUrl = imageUrl;
             this.userId = userId;
+            this.username = username;
         }
     }
 }

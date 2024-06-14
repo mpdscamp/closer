@@ -10,7 +10,7 @@ import java.util.List;
 public class GroupMessagesActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private MessageAdapter messageAdapter;
-    private List<Message> messageList;
+    private List<Image> messageList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,13 +30,13 @@ public class GroupMessagesActivity extends AppCompatActivity {
         recyclerView.setAdapter(messageAdapter);
     }
 
-    private List<Message> fetchMessagesForGroup(String groupId) {
+    private List<Image> fetchMessagesForGroup(String groupId) {
         // This should be replaced with actual data fetching logic
-        List<Message> messages = new ArrayList<>();
+        List<Image> messages = new ArrayList<>();
 
         // Example data
-        messages.add(new Message("user1", groupId, "Hello, this is a message."));
-        messages.add(new Message("user2", groupId, "This is another message."));
+        messages.add(new Image("user1", groupId, "Hello, this is a message."));
+        messages.add(new Image("user2", groupId, "This is another message."));
 
         return messages;
     }

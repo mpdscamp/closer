@@ -1,12 +1,15 @@
 package com.labprog.closer;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -19,12 +22,24 @@ public class PostMessageServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String userEmail = request.getParameter("email");
-        int groupId = Integer.parseInt(request.getParameter("groupId"));
-        int challengeId = Integer.parseInt(request.getParameter("challengeId"));
-        String imageUrl = request.getParameter("imageUrl");
-        response.setContentType("text/plain");
+        response.setContentType("application/json");
         PrintWriter out = response.getWriter();
+
+        // Leitura do corpo da requisição
+        StringBuilder sb = new StringBuilder();
+        BufferedReader reader = request.getReader();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            sb.append(line);
+        }
+        String requestBody = sb.toString();
+
+        // Parse do JSON
+        JsonObject jsonObject = JsonParser.parseString(requestBody).getAsJsonObject();
+        String userEmail = jsonObject.get("email").getAsString();
+        int groupId = jsonObject.get("groupId").getAsInt();
+        String imageUrl = jsonObject.get("imageUrl").getAsString();
+        int challengeId = 1;
 
         Connection connection = null;
         PreparedStatement statement = null;

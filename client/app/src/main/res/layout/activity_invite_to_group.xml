@@ -3,6 +3,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:text="@string/convide_um_amigo"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/users_recycler_view"

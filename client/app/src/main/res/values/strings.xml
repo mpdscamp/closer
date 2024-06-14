@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Closer</string>
+    <string name="convide_um_amigo">Convide um amigo</string>
+    <string name="todo">TODO</string>
     <string-array name="group_themes">
         <item>Família</item>
         <item>Amigos</item>

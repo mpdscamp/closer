@@ -1,11 +1,11 @@
 package com.labprog.closer;
 
-public class Message {
+public class Image {
     private String userId;
     private String groupId;
     private String content;
 
-    public Message(String userId, String groupId, String content) {
+    public Image(String userId, String groupId, String content) {
         this.userId = userId;
         this.groupId = groupId;
         this.content = content;
@@ -23,3 +23,4 @@ public class Message {
         return content;
     }
 }
+

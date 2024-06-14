@@ -9,9 +9,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageViewHolder> {
-    private List<Message> messageList;
+    private List<Image> messageList;
 
-    public MessageAdapter(List<Message> messageList) {
+    public MessageAdapter(List<Image> messageList) {
         this.messageList = messageList;
     }
 
@@ -24,7 +24,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
     @Override
     public void onBindViewHolder(@NonNull MessageViewHolder holder, int position) {
-        Message message = messageList.get(position);
+        Image message = messageList.get(position);
         holder.messageContent.setText(message.getContent());
     }
 
