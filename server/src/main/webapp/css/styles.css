@@ -1,0 +1,240 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f3e8fd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    padding: 0; /* Assuming you want to keep padding zero */
+}
+
+.container {
+    height: 50%;
+    width: 30%;           /* Adjust width as necessary, or use a specific pixel width like 400px */
+    min-width: 300px;     /* Ensures that the container does not get too small on narrower screens */
+    text-align: center;
+    background-color: #fff;
+    padding: 20px; /* Choose either 20px or 16px depending on your layout needs */
+    margin: auto;         /* Optionally center the container horizontally if needed */
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box; /* Includes padding and border in the element's total width and height */
+}
+
+.logo {
+    width: 100px;
+    margin-bottom: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+input {
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    padding: 10px;
+    background-color: #6a1b9a;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #5a1480;
+}
+
+p {
+    margin-top: 20px;
+}
+
+.group-item, .group-list-container .group-item {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+}
+
+.group-list-container .group-item {
+    margin-bottom: 10px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.group-image, .group-list-container .group-image {
+    width: 100px;
+    height: 100px;
+    margin-right: 20px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.group-info, .group-list-container .group-info {
+    flex-grow: 1;
+}
+
+.group-info h3, .group-list-container .group-info h3 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.group-info p, .group-list-container .group-info p {
+    margin: 5px 0 0;
+    color: #555;
+}
+
+.group-list-container .group-button {
+    padding: 10px 20px;
+    margin: 10px 0;
+}
+
+.group-list-container button {
+    margin: 10px 0;
+}
+
+/* Scoped styles for friends list page */
+.friends-list-container {
+    padding: 16px;
+}
+
+.friends-list-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.friends-list-container .friend-item {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+    margin-bottom: 10px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.friends-list-container .friend-info {
+    flex-grow: 1;
+}
+
+.friends-list-container .friend-info h3 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.friends-list-container .friend-info p {
+    margin: 5px 0 0;
+    color: #555;
+}
+
+.friends-list-container button {
+    margin: 10px 0;
+    padding: 10px 20px;
+    background-color: #6a1b9a;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.friends-list-container button:hover {
+    background-color: #5a1480;
+}
+
+/* Scoped styles for create group page */
+.create-group-container {
+    padding: 16px;
+    max-width: 400px;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.create-group-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.create-group-container input,
+.create-group-container select,
+.create-group-container button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.create-group-container button {
+    background-color: #6a1b9a;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.create-group-container button:hover {
+    background-color: #5a1480;
+}
+
+/* Scoped styles for invite friend page */
+.invite-friend-container {
+    padding: 16px;
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.invite-friend-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.invite-friend-container .user-item {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.invite-friend-container .user-info {
+    flex-grow: 1;
+}
+
+.invite-friend-container .user-info h3 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.invite-friend-container .user-info p {
+    margin: 5px 0 0;
+    color: #555;
+}
+
+.invite-friend-container .invite-button {
+    padding: 10px 20px;
+    background-color: #6a1b9a;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.invite-friend-container .invite-button:hover {
+    background-color: #5a1480;
+}
