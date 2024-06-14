@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Nome do Grupo"
+        android:textColorHint="@color/white"
         android:textColor="@color/white"/>
 
     <Spinner
@@ -25,5 +26,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Criar Grupo"
+        android:textColor="@color/white"
         android:layout_marginTop="16dp" />
 </LinearLayout>
