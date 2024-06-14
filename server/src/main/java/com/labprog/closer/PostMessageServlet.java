@@ -26,16 +26,12 @@ public class PostMessageServlet extends HttpServlet {
         response.setContentType("text/plain");
         PrintWriter out = response.getWriter();
 
-        String jdbcUrl = "jdbc:mysql://localhost:3306/closer";
-        String username = "root";
-        String password = "password"; // Replace with your actual password
-
         Connection connection = null;
         PreparedStatement statement = null;
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection(jdbcUrl, username, password);
+            connection = DatabaseConnection.getConnection();
             System.out.println("Database connection established.");
 
             String getUserSql = "SELECT user_id FROM Users WHERE email = ?";

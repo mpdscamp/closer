@@ -26,10 +26,6 @@ public class GetAllRatingsServlet extends HttpServlet {
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
 
-        String jdbcUrl = "jdbc:mysql://localhost:3306/closer";
-        String username = "root";
-        String password = "password"; // Replace with your actual password
-
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -38,7 +34,7 @@ public class GetAllRatingsServlet extends HttpServlet {
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection(jdbcUrl, username, password);
+            connection = DatabaseConnection.getConnection();
 
             String sql = "SELECT group_id, rating, user_rated, user_id FROM ratings";
             statement = connection.prepareStatement(sql);

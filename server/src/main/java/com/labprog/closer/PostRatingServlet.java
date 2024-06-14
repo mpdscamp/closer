@@ -27,16 +27,12 @@ public class PostRatingServlet extends HttpServlet {
         response.setContentType("text/plain");
         PrintWriter out = response.getWriter();
 
-        String jdbcUrl = "jdbc:mysql://localhost:3306/closer";
-        String username = "root";
-        String password = "password";
-
         Connection connection = null;
         PreparedStatement statement = null;
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection(jdbcUrl, username, password);
+            connection = DatabaseConnection.getConnection();
             System.out.println("Database connection established.");
 
             String insertRatingSql = "INSERT INTO ratings (image_id, user_id, rating, rated_at, group_id, user_rated) VALUES (?, ?, ?, NOW(), ?, ?)";
