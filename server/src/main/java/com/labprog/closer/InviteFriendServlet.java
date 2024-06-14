@@ -23,17 +23,12 @@ public class InviteFriendServlet extends HttpServlet {
         String friendEmail = request.getParameter("friendEmail");
         response.setContentType("text/plain");
         PrintWriter out = response.getWriter();
-
-        String jdbcUrl = "jdbc:mysql://localhost:3306/closer";
-        String username = "root";
-        String password = "password"; // Replace with your actual password
-
         Connection connection = null;
         PreparedStatement statement = null;
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection(jdbcUrl, username, password);
+            connection = DatabaseConnection.getConnection();
 
             // Get user IDs for both users
             String getUserSql = "SELECT user_id FROM Users WHERE email = ?";

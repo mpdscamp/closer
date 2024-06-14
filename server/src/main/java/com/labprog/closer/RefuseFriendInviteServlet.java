@@ -24,10 +24,6 @@ public class RefuseFriendInviteServlet extends HttpServlet {
         response.setContentType("text/plain");
         PrintWriter out = response.getWriter();
 
-        String jdbcUrl = "jdbc:mysql://localhost:3306/closer";
-        String username = "root";
-        String password = "password"; // Replace with your actual password
-
         Connection connection = null;
         PreparedStatement getUserStatement = null;
         PreparedStatement deleteInviteStatement = null;
@@ -35,7 +31,7 @@ public class RefuseFriendInviteServlet extends HttpServlet {
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection(jdbcUrl, username, password);
+            connection = DatabaseConnection.getConnection();
 
             // Retrieve user ids
             int userId = getUserId(connection, userEmail);

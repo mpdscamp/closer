@@ -20,15 +20,11 @@ public class TestDatabaseConnectionServlet extends HttpServlet {
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
 
-        String jdbcUrl = "jdbc:mysql://localhost:3306/closer";
-        String username = "root";
-        String password = "password"; // Replace with your actual password
-
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection connection = DriverManager.getConnection(jdbcUrl, username, password);
+            Connection conn = DatabaseConnection.getConnection();
             out.println("Connection successful!");
-            connection.close();
+            conn.close();
         } catch (ClassNotFoundException e) {
             out.println("JDBC Driver not found.");
             e.printStackTrace(out);

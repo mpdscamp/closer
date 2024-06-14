@@ -2,20 +2,40 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:background="@color/dark_blue">
 
-    <TextView
-        android:id="@+id/group_name_display"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:textSize="24sp"
-        android:paddingBottom="16dp" />
+    <!-- Header Layout -->
+    <include layout="@layout/header_group" />
 
+    <!-- RecyclerView -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <!-- FloatingActionButton (Camera) -->
     <Button
-        android:id="@+id/invite_to_group_button"
+        android:id="@+id/fabCamera"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Convidar para o Grupo" />
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="16dp"
+        android:contentDescription="@string/todo"
+        android:text="@string/adicionar_foto"
+        android:tint="@android:color/white"
+        android:backgroundTint="@color/blue" />
+
+    <!-- Button for Challenges -->
+    <Button
+        android:id="@+id/challenges_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="Desafio Diário"
+        android:tint="@android:color/white"
+        android:backgroundTint="@color/blue" />
 
 </LinearLayout>
