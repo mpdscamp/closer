@@ -52,7 +52,7 @@ public class LoginServlet extends HttpServlet {
                 out.print("Login successful");
             } else {
                 out.print("Invalid credentials");
-                
+
             }
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
