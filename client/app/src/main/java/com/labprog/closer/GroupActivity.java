@@ -49,9 +49,8 @@ public class GroupActivity extends AppCompatActivity {
     private Button fabCamera;
     private RecyclerView recyclerView;
     private ImageAdapter imageAdapter;
-    private List<String> imageUrlList;
+    private List<Image> imageUrlList;
     private int groupId;
-    private int challengeId;
     private String groupName;
     private String userEmail;
     private ActivityResultLauncher<Intent> takePictureLauncher;
@@ -72,7 +71,6 @@ public class GroupActivity extends AppCompatActivity {
         recyclerView.setAdapter(imageAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
-        challengeId = getIntent().getIntExtra("CHALLENGE_ID", 1);
         groupId = getIntent().getIntExtra("GROUP_ID", -1);
         groupName = getIntent().getStringExtra("GROUP_NAME");
         userEmail = getIntent().getStringExtra("USER_EMAIL");
@@ -197,12 +195,12 @@ public class GroupActivity extends AppCompatActivity {
                     String json = response.body().string();
 
                     Gson gson = new Gson();
-                    Type listType = new TypeToken<List<Message>>(){}.getType();
-                    List<Message> messages = gson.fromJson(json, listType);
+                    Type listType = new TypeToken<List<Image>>(){}.getType();
+                    List<Image> messages = gson.fromJson(json, listType);
 
                     imageUrlList.clear();
-                    for (Message message : messages) {
-                        imageUrlList.add(message.getImageUrl());
+                    for (Image message : messages) {
+                        imageUrlList.add(message);
                     }
 
                     runOnUiThread(new Runnable() {

@@ -1,7 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/dark_blue">
 
     <!-- Header Layout -->
     <include layout="@layout/header_group" />
@@ -21,8 +22,8 @@
         android:layout_gravity="center_horizontal"
         android:layout_margin="16dp"
         android:contentDescription="@string/todo"
-        android:text="+ foto"
+        android:text="@string/adicionar_foto"
         android:tint="@android:color/white"
-        android:backgroundTint="@android:color/holo_blue_dark" />
+        android:backgroundTint="@color/blue" />
 
 </LinearLayout>

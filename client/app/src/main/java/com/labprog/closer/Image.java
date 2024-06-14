@@ -1,14 +1,16 @@
 package com.labprog.closer;
 
 public class Image {
-    private String userId;
     private String groupId;
-    private String content;
+    private String userId;
+    private String imageUrl;
+    private String username;
 
-    public Image(String userId, String groupId, String content) {
-        this.userId = userId;
+    public Image(String userId, String groupId, String content, String username) {
         this.groupId = groupId;
-        this.content = content;
+        this.userId = userId;
+        this.imageUrl = content;
+        this.username = content;
     }
 
     public String getUserId() {
@@ -19,8 +21,12 @@ public class Image {
         return groupId;
     }
 
-    public String getContent() {
-        return content;
+    public String getUsername() {
+        return username;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
     }
 }
 

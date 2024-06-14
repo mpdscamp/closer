@@ -3,19 +3,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@color/dark_blue">
 
     <EditText
         android:id="@+id/group_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nome do Grupo" />
+        android:hint="Nome do Grupo"
+        android:textColor="@color/white"/>
 
     <Spinner
         android:id="@+id/group_theme_spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="16dp"
+        />
 
     <Button
         android:id="@+id/create_group_button"

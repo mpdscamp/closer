@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,10 +16,10 @@ import java.util.List;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
 
-    private List<String> imageUrlList;
+    private List<Image> images;
 
-    public ImageAdapter(List<String> imageUrlList) {
-        this.imageUrlList = imageUrlList;
+    public ImageAdapter(List<Image> imageUrlList) {
+        this.images = imageUrlList;
     }
 
     @NonNull
@@ -30,23 +31,26 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
 
     @Override
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
-        String base64Image = imageUrlList.get(position);
-        byte[] decodedString = Base64.decode(base64Image, Base64.DEFAULT);
+        Image base64Image = images.get(position);
+        byte[] decodedString = Base64.decode(base64Image.getImageUrl(), Base64.DEFAULT);
         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
         holder.imageView.setImageBitmap(decodedByte);
+        holder.usernameTextView.setText(base64Image.getUsername());
     }
 
     @Override
     public int getItemCount() {
-        return imageUrlList.size();
+        return images.size();
     }
 
     public static class ImageViewHolder extends RecyclerView.ViewHolder {
+        TextView usernameTextView;
         ImageView imageView;
 
         public ImageViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.imageView);
+            usernameTextView = itemView.findViewById(R.id.usernameTextView);
         }
     }
 }

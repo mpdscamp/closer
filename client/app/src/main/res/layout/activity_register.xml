@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:padding="16dp"
     android:gravity="center"
-    android:background="#f3e8fd">
+    android:background="@color/dark_blue">
 
     <!-- Logo -->
     <ImageView
@@ -63,5 +63,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Já possui uma conta? Faça login"
-        android:textColor="#6a1b9a" />
+        android:textColor="@color/white" />
 </LinearLayout>

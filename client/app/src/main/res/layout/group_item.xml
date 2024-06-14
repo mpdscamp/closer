@@ -9,7 +9,8 @@
         android:id="@+id/group_image"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:scaleType="centerCrop" />
+        android:scaleType="centerCrop"
+        />
 
     <TextView
         android:id="@+id/group_name"
@@ -17,25 +18,31 @@
         android:layout_height="wrap_content"
         android:textStyle="bold"
         android:textSize="18sp"
-        android:paddingTop="8dp" />
+        android:paddingTop="8dp"
+        android:textColor="@color/white"/>
 
     <TextView
         android:id="@+id/group_theme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="4dp" />
+        android:paddingTop="4dp"
+        android:textColor="@color/white"
+        />
 
     <TextView
         android:id="@+id/group_members"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="4dp"
-        android:text="Membros: " />
+        android:text="Membros: "
+        android:textColor="@color/white"
+        />
 
     <Button
         android:id="@+id/open_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Entrar"
+        android:textColor="@color/white"
         android:layout_marginTop="8dp" />
 </LinearLayout>

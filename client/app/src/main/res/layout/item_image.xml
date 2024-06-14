@@ -1,7 +1,23 @@
-<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/imageView"
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:scaleType="centerCrop"
-    android:adjustViewBounds="true" />
+    android:layout_height="match_parent">
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/todo" />
+
+    <TextView
+        android:id="@+id/usernameTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@android:color/black"
+        android:text="Username"
+        android:padding="10dp"
+        android:textColor="@android:color/white"
+        android:textSize="16sp" />
+</FrameLayout>
