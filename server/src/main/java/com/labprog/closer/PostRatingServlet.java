@@ -21,8 +21,6 @@ public class PostRatingServlet extends HttpServlet {
         int imageId = Integer.parseInt(request.getParameter("imageId"));
         int userId = Integer.parseInt(request.getParameter("userId"));
         String rating = request.getParameter("rating");
-        String userRated = request.getParameter("userRated");
-        int groupId = Integer.parseInt(request.getParameter("groupId"));
 
         response.setContentType("text/plain");
         PrintWriter out = response.getWriter();
@@ -35,13 +33,11 @@ public class PostRatingServlet extends HttpServlet {
             connection = DatabaseConnection.getConnection();
             System.out.println("Database connection established.");
 
-            String insertRatingSql = "INSERT INTO ratings (image_id, user_id, rating, rated_at, group_id, user_rated) VALUES (?, ?, ?, NOW(), ?, ?)";
+            String insertRatingSql = "INSERT INTO Ratings (image_id, user_id, rating) VALUES (?, ?, ?)";
             statement = connection.prepareStatement(insertRatingSql);
             statement.setInt(1, imageId);
             statement.setInt(2, userId);
             statement.setString(3, rating);
-            statement.setInt(4, groupId);
-            statement.setString(5, userRated);
 
             System.out.println("Executing query: " + statement.toString());
             statement.executeUpdate();

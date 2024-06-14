@@ -36,7 +36,7 @@ public class GetAllChallengesServlet extends HttpServlet {
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DatabaseConnection.getConnection();
 
-            String sql = "SELECT challenge_text, theme FROM challenges";
+            String sql = "SELECT challenge_text, theme FROM Challenges";
             statement = connection.prepareStatement(sql);
             resultSet = statement.executeQuery();
 

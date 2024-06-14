@@ -57,7 +57,7 @@ public class PostMessageServlet extends HttpServlet {
             if (rs.next()) {
                 int userId = rs.getInt("user_id");
 
-                String insertImageSql = "INSERT INTO images (group_id, user_id, challenge_id, image_url, submitted_at) VALUES (?, ?, ?, ?, NOW())";
+                String insertImageSql = "INSERT INTO Images (group_id, user_id, challenge_id, image_url, submitted_at) VALUES (?, ?, ?, ?, NOW())";
                 statement = connection.prepareStatement(insertImageSql);
                 statement.setInt(1, groupId);
                 statement.setInt(2, userId);

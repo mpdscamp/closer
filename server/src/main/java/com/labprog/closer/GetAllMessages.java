@@ -40,18 +40,19 @@ public class GetAllMessages extends HttpServlet {
             connection = DatabaseConnection.getConnection();
 
             // Consulta SQL para selecionar mensagens por group_id e incluir o username
-            String sql = "SELECT i.group_id, i.image_url, i.user_id, u.username FROM images i JOIN Users u ON i.user_id = u.user_id WHERE i.group_id = ?";
+            String sql = "SELECT i.image_id, i.group_id, i.image_url, i.user_id, u.username FROM Images i JOIN Users u ON i.user_id = u.user_id WHERE i.group_id = ?";
             statement = connection.prepareStatement(sql);
             statement.setInt(1, groupId);
             resultSet = statement.executeQuery();
 
             // Processando os resultados da consulta
             while (resultSet.next()) {
+                int imageId = resultSet.getInt("image_id");
                 int groupIdResult = resultSet.getInt("group_id");
                 String imageUrl = resultSet.getString("image_url");
                 int userId = resultSet.getInt("user_id");
                 String username = resultSet.getString("username");
-                messages.add(new Message(groupIdResult, imageUrl, userId, username));
+                messages.add(new Message(imageId, groupIdResult, imageUrl, userId, username));
             }
 
             // Convertendo a lista de mensagens para JSON
@@ -77,12 +78,14 @@ public class GetAllMessages extends HttpServlet {
 
     // Classe interna para representar uma mensagem
     class Message {
+        int imageId;
         int groupId;
         String imageUrl;
         int userId;
         String username;
 
-        Message(int groupId, String imageUrl, int userId, String username) {
+        Message(int imageId, int groupId, String imageUrl, int userId, String username) {
+            this.imageId = imageId;
             this.groupId = groupId;
             this.imageUrl = imageUrl;
             this.userId = userId;

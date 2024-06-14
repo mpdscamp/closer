@@ -17,6 +17,7 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -25,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.ByteArrayOutputStream;
@@ -32,6 +34,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -47,12 +50,14 @@ public class GroupActivity extends AppCompatActivity {
     private TextView groupNameDisplay;
     private Button inviteToGroupButton;
     private Button fabCamera;
+    private Button challengesButton; // New button for challenges
     private RecyclerView recyclerView;
     private ImageAdapter imageAdapter;
     private List<Image> imageUrlList;
     private int groupId;
     private String groupName;
     private String userEmail;
+    private int userId; // Assuming userId is available
     private ActivityResultLauncher<Intent> takePictureLauncher;
 
     @Override
@@ -63,10 +68,11 @@ public class GroupActivity extends AppCompatActivity {
         groupNameDisplay = findViewById(R.id.group_name_display);
         inviteToGroupButton = findViewById(R.id.invite_to_group_button);
         fabCamera = findViewById(R.id.fabCamera);
+        challengesButton = findViewById(R.id.challenges_button); // Initialize the new button
         recyclerView = findViewById(R.id.recyclerView);
 
         imageUrlList = new ArrayList<>();
-        imageAdapter = new ImageAdapter(imageUrlList);
+        imageAdapter = new ImageAdapter(imageUrlList, this, userId);
 
         recyclerView.setAdapter(imageAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
@@ -74,6 +80,7 @@ public class GroupActivity extends AppCompatActivity {
         groupId = getIntent().getIntExtra("GROUP_ID", -1);
         groupName = getIntent().getStringExtra("GROUP_NAME");
         userEmail = getIntent().getStringExtra("USER_EMAIL");
+        userId = getIntent().getIntExtra("USER_ID", -1); // Assuming userId is passed in the intent
 
         groupNameDisplay.setText(groupName);
 
@@ -91,6 +98,13 @@ public class GroupActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 dispatchTakePictureIntent();
+            }
+        });
+
+        challengesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fetchAndShowChallenge();
             }
         });
 
@@ -176,7 +190,7 @@ public class GroupActivity extends AppCompatActivity {
         });
     }
 
-    public void fetchImagesFromServer(Integer group_id) {
+    private void fetchImagesFromServer(Integer group_id) {
         OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder()
@@ -187,31 +201,98 @@ public class GroupActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call call, IOException e) {
                 e.printStackTrace();
+                runOnUiThread(() -> Toast.makeText(GroupActivity.this, "Failed to fetch images from server", Toast.LENGTH_SHORT).show());
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
                     String json = response.body().string();
+                    System.out.println("Server response: " + json); // Log the server response for debugging
 
-                    Gson gson = new Gson();
-                    Type listType = new TypeToken<List<Image>>(){}.getType();
-                    List<Image> messages = gson.fromJson(json, listType);
+                    try {
+                        Gson gson = new Gson();
+                        Type listType = new TypeToken<List<Image>>() {}.getType();
 
-                    imageUrlList.clear();
-                    for (Image message : messages) {
-                        imageUrlList.add(message);
-                    }
+                        // Check if the response starts with '[' indicating it's a JSON array
+                        if (json.startsWith("[")) {
+                            List<Image> messages = gson.fromJson(json, listType);
 
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            imageAdapter.notifyDataSetChanged();
+                            imageUrlList.clear();
+                            imageUrlList.addAll(messages);
+
+                            runOnUiThread(() -> imageAdapter.notifyDataSetChanged());
+                        } else {
+                            // Handle the case where the response is not an array
+                            runOnUiThread(() -> Toast.makeText(GroupActivity.this, "Unexpected server response", Toast.LENGTH_SHORT).show());
                         }
-                    });
+                    } catch (JsonSyntaxException e) {
+                        e.printStackTrace();
+                        runOnUiThread(() -> Toast.makeText(GroupActivity.this, "Error parsing server response", Toast.LENGTH_SHORT).show());
+                    }
+                } else {
+                    runOnUiThread(() -> Toast.makeText(GroupActivity.this, "Server returned an error: " + response.code(), Toast.LENGTH_SHORT).show());
                 }
             }
         });
+    }
+
+    private void fetchAndShowChallenge() {
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                .url("http://10.0.2.2:8080/closer_war_exploded/get-all-challenges")
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+                runOnUiThread(() -> Toast.makeText(GroupActivity.this, "Erro ao buscar desafios", Toast.LENGTH_SHORT).show());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String json = response.body().string();
+                    System.out.println("Server response: " + json); // Log the server response for debugging
+
+                    try {
+                        Gson gson = new Gson();
+                        Type listType = new TypeToken<List<Challenges>>() {}.getType();
+
+                        // Check if the response starts with '[' indicating it's a JSON array
+                        if (json.startsWith("[")) {
+                            List<Challenges> challenges = gson.fromJson(json, listType);
+
+                            if (challenges != null && !challenges.isEmpty()) {
+                                Random random = new Random();
+                                Challenges randomChallenge = challenges.get(random.nextInt(challenges.size()));
+
+                                runOnUiThread(() -> showChallengePopup(randomChallenge.getChallengeText()));
+                            } else {
+                                runOnUiThread(() -> Toast.makeText(GroupActivity.this, "Nenhum desafio encontrado", Toast.LENGTH_SHORT).show());
+                            }
+                        } else {
+                            runOnUiThread(() -> Toast.makeText(GroupActivity.this, "Unexpected server response format", Toast.LENGTH_SHORT).show());
+                        }
+                    } catch (JsonSyntaxException e) {
+                        e.printStackTrace();
+                        runOnUiThread(() -> Toast.makeText(GroupActivity.this, "Error parsing server response", Toast.LENGTH_SHORT).show());
+                    }
+                } else {
+                    runOnUiThread(() -> Toast.makeText(GroupActivity.this, "Server returned an error: " + response.code(), Toast.LENGTH_SHORT).show());
+                }
+            }
+        });
+    }
+
+    private void showChallengePopup(String challengeText) {
+        new AlertDialog.Builder(this)
+                .setTitle("Daily Challenge")
+                .setMessage(challengeText)
+                .setPositiveButton("OK", null)
+                .show();
     }
 
     class Message {
@@ -253,6 +334,14 @@ public class GroupActivity extends AppCompatActivity {
 
         public String getUserEmail() {
             return userEmail;
+        }
+    }
+
+    class Challenges {
+        private String challengeText;
+
+        public String getChallengeText() {
+            return challengeText;
         }
     }
 }
