@@ -1,0 +1,218 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap');
+@font-face {
+    font-family: "Vibur";
+    src: url("font/Montserrat-Light.ttf") format("truetype");
+}
+:root {
+    --bg-gray: #e8e8e8;
+    --color-primary: #2c2b3a;
+    --tex-grey: #4A4A4A;
+    --white: #fff;
+    --text-light-grey: #aaa;
+    --star-yellow: #ffbb3a;
+}
+* {
+    box-sizing: border-box;
+    font-family: 'Vibur';
+}
+
+main {
+    min-height: 100vh; /* Define uma altura mínima de 100% da altura da janela do navegador */
+    padding-bottom: 50px; /* Adiciona um espaço extra na parte inferior para evitar que o conteúdo fique colado ao final da página */
+}
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+}
+html, body {
+    background-color: var(--bg-gray);
+    background-image: url("../images/groupsBackgroundImg.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    margin: 0; /* Remove margens padrão */
+    padding: 0; /* Remove preenchimento padrão */
+
+
+
+}
+header {
+    background-color: var(--color-primary);
+    color: var(--white);
+    height: 60px;
+    display: flex;
+    align-items: center;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+nav h1 {
+    font-size: 32px;
+    font-weight: 100;
+}
+nav a {
+    font-size:  24px;
+    font-weight: 100;
+}
+a, a:hover {
+    text-decoration: none;
+    color: unset;
+}
+
+.Closer-contact-container {
+    display: flex;
+    align-items: center;
+}
+
+.Closer-contact-container img {
+    margin-right: 10px;
+}
+
+.Closer-card {
+    width: 100%;
+    position: relative;
+    overflow: hidden; /* Garante que a sombra difusa seja cortada nas bordas do card */
+    border-radius: 8px; /* Mantém a mesma borda arredondada que o card */
+    box-shadow: 0 0 10px 7px rgba(59, 58, 58, 0.5); /* Adiciona uma sombra difusa com desfoque */
+}
+
+#Closer-card-list {
+    padding: 0px 10px;
+
+}
+
+.Closer-card img {
+    width: 100%;
+    border-radius: 8px 8px 0 0;
+
+
+}
+
+.Closer-card-description {
+    background-color: var(--white);
+    padding: 10px 20px 20px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 0 0 8px 8px;
+    height: 190px;
+
+
+}
+
+.Closer-card-description h3 {
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 24px;
+    font-weight: 100;
+    margin-bottom: 10px;
+    text-align: center;
+
+}
+.Closer-card-description-bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+.Closer-card-description-bottom h4 {
+    font-size: 16px;
+    font-weight: 100;
+    color: var(--star-yellow);
+
+}
+
+.Closer-card-description-bottom p {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--text-light-grey);
+    margin-bottom: 10px;
+
+
+}
+
+.Closer-card-description-bottom img {
+    width: 22px;
+}
+
+.Closer-btn, .Closer-btn:hover {
+    width: 180px;
+    height: 40px;
+    background-color: var(--color-primary);
+    color: var(--white);
+    font-size: 20px;
+    font-weight: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    border: 0;
+
+}
+
+.Closer-btn-container {
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+
+
+}
+
+.Closer-pagination-container {
+    padding: 15px 0;
+    display: flex;
+    justify-content: center;
+
+}
+
+.Closer-pagination-box {
+    width: 180px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.Closer-pagination-box p {
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    margin: 0;
+    font-size: 18px;
+    color: var(--color-primary);
+    font-weight: 400;
+
+
+}
+
+.Closer-pagination-box button {
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--color-primary);
+    border-radius: 4px;
+    background-color: var(--white);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+
+
+}
+
+.Closer-pagination-box button img {
+    filter: brightness(0)  saturate(100%) invert(27%) sepia(16%) saturate(6063%) hue-rotate(225deg) brightness(100%) contrast(94%);
+}
+
+.Closer-pagination-box button:disabled {
+    border: 1px solid var(--text-light-grey);
+}
+
+.Closer-pagination-box button:disabled img {
+    filter: unset;
+}
+
+.Closer-flip-horizontal {
+    transform: rotate(180deg);
+}

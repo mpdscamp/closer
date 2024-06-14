@@ -1,11 +1,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Group List</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/groupsStyle.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
@@ -45,16 +48,13 @@
                 url: 'group-list?email=' + encodeURIComponent(email),
                 method: 'GET',
                 success: function(response) {
-                    console.log('Group list response:', response); // Log the response to check its structure
                     const groupList = $('#groupList');
                     groupList.empty();
 
                     if (Array.isArray(response)) {
                         response.forEach(function(group) {
-                            console.log('Group:', group); // Log each group to debug
-                            let imageUrl = group.imageUrl.replace('10.0.2.2', 'localhost'); // Remove the domain part if needed
+                            let imageUrl = group.imageUrl.replace('10.0.2.2', 'localhost');
 
-                            // Map themes to Portuguese equivalents
                             let theme = group.theme;
                             switch (theme) {
                                 case "family":
@@ -68,17 +68,17 @@
                                     break;
                             }
 
-                            // Fetch group members and then append the group item
                             fetchGroupMembers(group.groupId, function(members) {
-                                // Using string concatenation instead of template literals
-                                var groupItem = '<div class="group-item">' +
-                                    '<img src="' + imageUrl + '" alt="' + group.groupName + '" class="group-image">' +
-                                    '<div class="group-info">' +
-                                    '<h3>' + group.groupName + '</h3>' +
-                                    '<p>' + theme + '</p>' +
-                                    '<p>Membros: ' + members.join(', ') + '</p>' +
+                                var groupItem = '<div class="col-md-6 col-lg-4 col-xl-3 mb-4">' +
+                                    '<div class="card h-100">' +
+                                    '<img src="' + imageUrl + '" alt="' + group.groupName + '" class="card-img-top">' +
+                                    '<div class="card-body">' +
+                                    '<h5 class="card-title">' + group.groupName + '</h5>' +
+                                    '<p class="card-text">' + theme + '</p>' +
+                                    '<p class="card-text">Membros: ' + members.join(', ') + '</p>' +
+                                    '<button onclick="enterGroup(' + group.groupId + ', \'' + group.groupName + '\', \'' + email + '\')" class="btn btn-primary">Entrar</button>' +
                                     '</div>' +
-                                    '<button onclick="enterGroup(' + group.groupId + ', \'' + group.groupName + '\', \'' + email + '\')" class="group-button">Entrar</button>' +
+                                    '</div>' +
                                     '</div>';
 
                                 $('#groupList').append(groupItem);
@@ -99,7 +99,6 @@
                 url: 'get-group-members?groupId=' + groupId,
                 method: 'GET',
                 success: function(response) {
-                    console.log('Group members response:', response); // Log the response to check its structure
                     if (Array.isArray(response)) {
                         callback(response);
                     } else {
@@ -118,16 +117,20 @@
             window.location.href = 'group.jsp?GROUP_ID=' + groupId + '&GROUP_NAME=' + encodeURIComponent(groupName) + '&USER_EMAIL=' + encodeURIComponent(userEmail);
         }
     </script>
-
 </head>
 <body>
-<div class="group-list-container">
-    <div>
-        <span id="userNameDisplay" style="font-weight: bold; font-size: 18px;"></span>
-        <button id="friendsListButton">Amigos</button>
-        <button id="createGroupButton">Criar Grupo</button>
-    </div>
-    <div id="groupList" class="group-list"></div>
-</div>
+<header>
+    <nav class="container">
+        <h1>Closer</h1>
+        <div class="Closer-contact-container">
+            <span id="userNameDisplay" style="font-weight: bold; font-size: 18px;"></span>
+            <button id="friendsListButton" class="btn btn-secondary">Amigos</button>
+            <button id="createGroupButton" class="btn btn-primary">Criar Grupo</button>
+        </div>
+    </nav>
+</header>
+<main class="container mt-4">
+    <div id="groupList" class="row"></div>
+</main>
 </body>
 </html>

@@ -1,11 +1,13 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <title>Closer</title>
+    <link rel="stylesheet" href="css/loginStyle.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
@@ -39,14 +41,25 @@
     </script>
 </head>
 <body>
-<div class="container">
-    <img src="images/logo.png" alt="Logo" class="logo">
+<div class="wrapper">
     <form id="loginForm">
-        <input type="email" name="email" id="email" placeholder="E-mail" required>
-        <input type="password" name="password" id="password" placeholder="Senha" required>
-        <button type="submit">Login</button>
+        <h1>Closer</h1>
+        <div class="input-box">
+            <input type="email" placeholder="E-mail" name="email" id="email" required>
+            <i class='bx bxs-user'></i>
+        </div>
+
+        <div class="input-box">
+            <input type="password" placeholder="Senha" name="password" id="password" required>
+            <i class='bx bxs-lock-alt'></i>
+        </div>
+
+        <button type="submit" class="btn">Login</button>
+
+        <div class="register-link">
+            <p>Não possui uma conta? <a href="register.jsp">Cadastre-se</a></p>
+        </div>
     </form>
-    <p>Não possui uma conta? <a href="register.jsp">Cadastre-se</a></p>
 </div>
 </body>
 </html>
